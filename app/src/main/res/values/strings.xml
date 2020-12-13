@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CellarManager</string>
+    <string name="title_home">Acceuil</string>
+    <string name="title_bottle">Bouteilles</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_modify_bottle">Modifier une bouteille</string>
+</resources>

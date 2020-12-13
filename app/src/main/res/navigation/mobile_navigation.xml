@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="fr.antoninruan.cellarmanager.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_bottles"
+        android:name="fr.antoninruan.cellarmanager.ui.bottles.BottlesFragment"
+        android:label="@string/title_bottle"
+        tools:layout="@layout/fragment_bottles" >
+        <action
+            android:id="@+id/action_navigation_bottles_to_modifyBottleActivity"
+            app:destination="@id/modifyBottleActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="fr.antoninruan.cellarmanager.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <activity
+        android:id="@+id/modifyBottleActivity"
+        android:name="fr.antoninruan.cellarmanager.ModifyBottleActivity"
+        android:label="activity_modify_bottle"
+        tools:layout="@layout/activity_modify_bottle" />
+
+</navigation>
