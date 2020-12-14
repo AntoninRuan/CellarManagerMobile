@@ -76,17 +76,42 @@
             android:layout_height="match_parent"
             android:checkedButton="@id/red">
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
             <RadioButton
                 android:id="@+id/red"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Rouge" />
+                android:text="@string/type_red" />
 
             <RadioButton
                 android:id="@+id/blanc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Blanc" />
+                android:text="@string/type_blanc" />
+
+            <RadioButton
+                android:id="@+id/rose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/type_rose" />
+
+            <RadioButton
+                android:id="@+id/champagne"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/type_champagne" />
+
+            <RadioButton
+                android:id="@+id/other"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/type_others" />
         </RadioGroup>
 
     </LinearLayout>

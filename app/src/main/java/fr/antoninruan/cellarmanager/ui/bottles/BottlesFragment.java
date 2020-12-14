@@ -41,19 +41,10 @@ public class BottlesFragment extends Fragment {
         add.setOnClickListener((view) -> {
 
             Intent intent = new Intent(this.getContext(), ModifyBottleActivity.class);
-            startActivityForResult(intent, 0);
+            startActivity(intent);
 
         });
 
         return root;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == 0) {
-            if(resultCode == RESULT_OK) {
-                System.out.println(data.getDataString());
-            }
-        }
     }
 }
