@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -14,16 +16,22 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 import fr.antoninruan.cellarmanager.model.Bottle;
+import fr.antoninruan.cellarmanager.model.BottleInfo;
 import fr.antoninruan.cellarmanager.model.WineType;
+import fr.antoninruan.cellarmanager.ui.bottles.BottlesFragment;
 
 public class ModifyBottleActivity extends AppCompatActivity {
 
     Bottle bottle = null;
 
+    boolean create = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Integer.parseInt(getIntent().getDataString()) != -1)
+        create = getIntent().getBooleanExtra("create", false);
+        System.out.println(create);
+        if(!create)
             bottle = MainActivity.getBottles().get(Integer.parseInt(getIntent().getDataString()));
         setContentView(R.layout.activity_modify_bottle);
         TextInputLayout name = findViewById(R.id.name);
@@ -31,7 +39,11 @@ public class ModifyBottleActivity extends AppCompatActivity {
         TextInputLayout edition = findViewById(R.id.edition);
         EditText year = findViewById(R.id.year);
         EditText consumeYear = findViewById(R.id.consume_year);
-        RadioGroup type = findViewById(R.id.type);
+        Spinner type = findViewById(R.id.type);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.wine_type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        type.setAdapter(adapter);
 
         if (bottle != null) {
             name.getEditText().setText(bottle.getName());
@@ -39,55 +51,41 @@ public class ModifyBottleActivity extends AppCompatActivity {
             edition.getEditText().setText(bottle.getEdition());
             year.setText(String.valueOf(bottle.getYear()));
             consumeYear.setText(String.valueOf(bottle.getConsumeYear()));
-            switch (bottle.getType()) {
-                case ROUGE:
-                    type.check(R.id.red);
-                    break;
-                case BLANC:
-                    type.check(R.id.blanc);
-                    break;
-                case ROSE:
-                    type.check(R.id.rose);
-                    break;
-                case CHAMPAGNE:
-                    type.check(R.id.champagne);
-                    break;
-                case AUTRES:
-                    type.check(R.id.other);
-                    break;
-            }
+            type.setSelection(bottle.getType().getId());
+        } else {
+            year.setText(String.valueOf(1980));
+            consumeYear.setText(year.getText());
         }
 
         FloatingActionButton validate = findViewById(R.id.validate);
         validate.setOnClickListener((view) -> {
-            Intent intent = new Intent();
-            String result = "nom=" + name.getEditText().getText().toString() + ", domaine=" + domain.getEditText().getText().toString() +
-                    ", edition=" + edition.getEditText().getText().toString();
-            bottle.setName(name.getEditText().getText().toString());
-            bottle.setDomain(domain.getEditText().getText().toString());
-            bottle.setEdition(edition.getEditText().getText().toString());
-            bottle.setYear(Integer.parseInt(year.getText().toString()));
-            bottle.setConsumeYear(Integer.parseInt(consumeYear.getText().toString()));
-            switch (type.getCheckedRadioButtonId()) {
-                case R.id.red:
-                    bottle.setType(WineType.ROUGE);
-                    break;
-                case R.id.blanc:
-                    bottle.setType(WineType.BLANC);
-                    break;
-                case R.id.champagne:
-                    bottle.setType(WineType.CHAMPAGNE);
-                    break;
-                case R.id.rose:
-                    bottle.setType(WineType.ROSE);
-                    break;
-                case R.id.other:
-                    bottle.setType(WineType.AUTRES);
-                    break;
-                default:
-                    break;
+            BottleInfo info = new BottleInfo();
+
+            info.setName(name.getEditText().getText().toString());
+            info.setDomain(domain.getEditText().getText().toString());
+            info.setEdition(edition.getEditText().getText().toString());
+            info.setYear(Integer.parseInt(year.getText().toString()));
+            info.setConsumeYear(Integer.parseInt(consumeYear.getText().toString()));
+            info.setType(WineType.fromId(type.getSelectedItemPosition()));
+
+            if (create) {
+                if (!name.getEditText().getText().toString().isEmpty() || !edition.getEditText().getText().toString().isEmpty() ||
+                        !domain.getEditText().getText().toString().isEmpty() || Integer.parseInt(year.getText().toString()) != 1980 ||
+                        Integer.parseInt(consumeYear.getText().toString()) != 1980)
+                    bottle = info.createBottle();
             }
-            //FIXME la mise à jour de la bouteille ne se fait pas dans la liste affiché
+            else
+                info.modifyBottle(bottle);
+            BottlesFragment.getAdapter().notifyDataSetChanged();
+            finish();
+        });
+
+        FloatingActionButton delete = findViewById(R.id.delete);
+        delete.setOnClickListener((view) -> {
+            if (!create) {
+                MainActivity.getBottles().remove(bottle.getId());
+                BottlesFragment.getAdapter().notifyDataSetChanged();
+            }
             finish();
         });
     }

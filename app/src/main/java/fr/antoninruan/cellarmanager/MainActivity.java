@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,38 @@ public class MainActivity extends AppCompatActivity {
         } catch (JsonSyntaxException | NumberFormatException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<Bottle> getBottlesSortedBy(SortCriteria criteria) {
+        List<Bottle> bottles = Arrays.asList(MainActivity.bottles.values().toArray(new Bottle[]{}));
+        bottles.sort((b1, b2) -> {
+            switch (criteria) {
+                case NAME:
+                    return b1.getName().compareTo(b2.getName());
+                case DOMAIN:
+                    return b1.getDomain().compareTo(b2.getDomain());
+                case YEAR:
+                    return b2.getYear() - b1.getYear();
+                case EDITION:
+                    return b1.getEdition().compareTo(b2.getEdition());
+                case CONSUME_YEAR:
+                    return b2.getConsumeYear() - b1.getConsumeYear();
+                default:
+                    break;
+            }
+            return 0;
+        });
+        return bottles;
+    }
+
+    public enum SortCriteria {
+
+        NAME,
+        DOMAIN,
+        EDITION,
+        YEAR,
+        CONSUME_YEAR
+
     }
 
 }

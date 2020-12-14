@@ -24,6 +24,7 @@ import static android.app.Activity.RESULT_OK;
 public class BottlesFragment extends Fragment {
 
     private BottlesViewModel bottlesViewModel;
+    private static BottleAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class BottlesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_bottles, container, false);
         final RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
         BottleAdapter adapter = new BottleAdapter();
+        BottlesFragment.adapter = adapter;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
@@ -41,10 +43,15 @@ public class BottlesFragment extends Fragment {
         add.setOnClickListener((view) -> {
 
             Intent intent = new Intent(this.getContext(), ModifyBottleActivity.class);
+            intent.putExtra("create", true);
             startActivity(intent);
 
         });
 
         return root;
+    }
+
+    public static BottleAdapter getAdapter() {
+        return adapter;
     }
 }

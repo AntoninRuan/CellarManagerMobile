@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wine_type">
+        <item>@string/type_red</item>
+        <item>@string/type_blanc</item>
+        <item>@string/type_champagne</item>
+        <item>@string/type_rose</item>
+        <item>@string/type_other</item>
+    </string-array>
+</resources>

@@ -27,13 +27,12 @@ public class BottleAdapter extends RecyclerView.Adapter<BottleAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.bottle_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(listItem);
-        return viewHolder;
+        return new ViewHolder(listItem);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Bottle bottle = MainActivity.getBottles().get(position);
+        Bottle bottle = MainActivity.getBottlesSortedBy(MainActivity.SortCriteria.NAME).get(position);
         holder.imageView.setImageResource(R.drawable.logo);
         switch (bottle.getType()) {
             case ROUGE:

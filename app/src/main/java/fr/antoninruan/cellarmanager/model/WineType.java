@@ -632,16 +632,28 @@ package fr.antoninruan.cellarmanager.model;
  */
 public enum WineType {
 
-    ROUGE,
-    BLANC,
-    ROSE,
-    CHAMPAGNE,
-    AUTRES;
+    ROUGE(0),
+    BLANC(1),
+    ROSE(3),
+    CHAMPAGNE(2),
+    AUTRES(4);
 
-    @Override
-    public String toString() {
-        return super.toString();
+    private int id;
+    WineType(int id) {
+        this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public static WineType fromId(int id) {
+        for (WineType type : values()) {
+            if (type.id == id)
+                return type;
+        }
+        return AUTRES;
+    }
 
 }
+

@@ -8,6 +8,6 @@
     <string name="type_rose">Rosé</string>
     <string name="type_blanc">Blanc</string>
     <string name="type_champagne">Champagne</string>
-    <string name="type_others">Autre</string>
+    <string name="type_other">Autre</string>
     <string name="type">Type</string>
 </resources>

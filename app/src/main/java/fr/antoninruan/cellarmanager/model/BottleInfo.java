@@ -643,6 +643,10 @@ public class BottleInfo {
     private int consumeYear;
     private WineType type;
 
+    public BottleInfo() {
+
+    }
+
     public BottleInfo(String name, String region, String domain, String edition, String comment, int year, int consumeYear, WineType type) {
         this.name = name;
         this.region = region;
@@ -654,10 +658,41 @@ public class BottleInfo {
         this.type = type;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setConsumeYear(int consumeYear) {
+        this.consumeYear = consumeYear;
+    }
+
+    public void setType(WineType type) {
+        this.type = type;
+    }
+
     public Bottle createBottle() {
         Bottle bottle = new Bottle(name, region, edition, domain, comment, year, consumeYear, type);
         MainActivity.getBottles().put(bottle.getId(), bottle);
-//        Saver.doChange(); //TODO adapter à android
         return bottle;
     }
 
@@ -670,7 +705,6 @@ public class BottleInfo {
         bottle.setYear(year);
         bottle.setConsumeYear(consumeYear);
         bottle.setType(type);
-//        Saver.doChange(); //TODO adapter à android
     }
 
 }
